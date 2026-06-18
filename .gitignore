@@ -1,0 +1,8 @@
+target/
+reports/
+config/qa.properties
+config/staging.properties
+.idea/
+*.iml
+.vscode/
+*.log

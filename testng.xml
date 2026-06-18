@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SpotQuote API Suite" verbose="1">
+
+    <listeners>
+        <listener class-name="utilities.TestListener"/>
+    </listeners>
+
+
+    <test name="Get User Tests">
+        <classes>
+            <class name="testcases.GetUserTests"/>
+        </classes>
+    </test>
+
+    <test name="Create User Tests">
+        <classes>
+            <class name="testcases.CreateUserTests"/>
+        </classes>
+    </test>
+
+    <test name="Update User Tests">
+        <classes>
+            <class name="testcases.UpdateUserTests"/>
+        </classes>
+    </test>
+
+    <test name="Delete User Tests">
+        <classes>
+            <class name="testcases.DeleteUserTests"/>
+        </classes>
+    </test>
+
+    <test name="Login Tests">
+        <classes>
+            <class name="testcases.LoginTests"/>
+        </classes>
+    </test>
+
+</suite>
