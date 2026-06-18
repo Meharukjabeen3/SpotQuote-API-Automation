@@ -1,50 +1,48 @@
 package testcases;
 
 import base.BaseTest;
+import models.CreateUserRequest;
+import models.CreateUserResponse;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 public class CreateUserTests extends BaseTest {
 
     @Test
     public void createUser_validPayload_returns201() {
-        Map<String, Object> body = new HashMap<>();
-        body.put("name", "Jane Doe");
-        body.put("job", "QA Engineer");
+        CreateUserRequest request = new CreateUserRequest("Jane Doe", "QA Engineer");
 
-        given()
+        CreateUserResponse response = given()
             .contentType("application/json")
-            .body(body)
+            .body(request)
         .when()
             .post("/users")
         .then()
             .statusCode(201)
-            .body("name", equalTo("Jane Doe"))
-            .body("job", equalTo("QA Engineer"))
-            .body("id", not(emptyOrNullString()))
-            .body("createdAt", not(emptyOrNullString()));
+            .extract().as(CreateUserResponse.class);
+
+        assertThat(response.getName(), equalTo("Jane Doe"));
+        assertThat(response.getJob(), equalTo("QA Engineer"));
+        assertThat(response.getId(), not(emptyOrNullString()));
+        assertThat(response.getCreatedAt(), not(emptyOrNullString()));
     }
 
     @Test
     public void createUser_responseContainsId() {
-        Map<String, Object> body = new HashMap<>();
-        body.put("name", "Test User");
-        body.put("job", "Developer");
+        CreateUserRequest request = new CreateUserRequest("Test User", "Developer");
 
-        String id = given()
+        CreateUserResponse response = given()
             .contentType("application/json")
-            .body(body)
+            .body(request)
         .when()
             .post("/users")
         .then()
             .statusCode(201)
-            .extract().path("id");
+            .extract().as(CreateUserResponse.class);
 
-        assert id != null && !id.isEmpty() : "Created user should have a non-empty ID";
+        assertThat(response.getId(), not(emptyOrNullString()));
     }
 }
